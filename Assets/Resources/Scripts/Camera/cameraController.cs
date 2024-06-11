@@ -14,7 +14,6 @@ namespace Assets.Resources.Scripts.Camera
 
         private void Awake() {
             controller = new MainController();
-
             controller.Enable();
 
             _rb = gameObject.GetComponent<Rigidbody2D>();

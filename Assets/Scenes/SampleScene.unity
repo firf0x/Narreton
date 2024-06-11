@@ -187,7 +187,7 @@ Camera:
   far clip plane: 10
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -296,6 +296,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 02072e25-1db3-41fd-986f-a18f6062f3e5
     m_ActionName: Mouse/Position[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 98c8636b-523e-44a8-b8b9-514574d4a5e8
+    m_ActionName: Settings/ReloadScene[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Move
@@ -344,6 +348,61 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 644399105}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &584215593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584215595}
+  - component: {fileID: 584215594}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &584215594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584215593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74503729324bf41b2e5e9564003df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileMap: {fileID: 644399107}
+  Tile_1: {fileID: 11400000, guid: 99a3f0ff57546fd449d972d373f510ea, type: 2}
+  Tile_2: {fileID: 11400000, guid: 612b92ce59d992c449137b14158f50ae, type: 2}
+  Size: {x: 200, y: 200}
+  chanceToStartAlive: 0.37
+  deathLimit: 2
+  birthLimit: 4
+  numberOfSteps: 9
+  RemoveEnds: 1
+  startPoint: {x: 87, y: 87}
+  endPoint: {x: 127, y: 127}
+--- !u!4 &584215595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584215593}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &644399104
@@ -524,14 +583,14 @@ Tilemap:
   m_Origin: {x: -5, y: -7, z: 0}
   m_Size: {x: 13, y: 11, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
-  m_TileOrientation: 0
+  m_TileOrientation: 6
   m_TileOrientationMatrix:
-    e00: 8.333
+    e00: 1
     e01: 0
     e02: 0
     e03: 0
     e10: 0
-    e11: 8.333
+    e11: 1
     e12: 0
     e13: 0
     e20: 0
@@ -542,9 +601,56 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &869346859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 869346860}
+  - component: {fileID: 869346861}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &869346860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869346859}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &869346861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869346859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb81f429707c334a807c8fb840e8dda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 106020318}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 106020315}
   - {fileID: 474443347}
+  - {fileID: 584215595}
+  - {fileID: 869346860}

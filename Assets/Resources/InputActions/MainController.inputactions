@@ -120,6 +120,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Settings",
+            "id": "494c7231-3ec0-4d51-9ada-028b5fae47bf",
+            "actions": [
+                {
+                    "name": "ReloadScene",
+                    "type": "Button",
+                    "id": "98c8636b-523e-44a8-b8b9-514574d4a5e8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2b2be064-5baa-4d22-abfd-473b8c6bc404",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadScene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

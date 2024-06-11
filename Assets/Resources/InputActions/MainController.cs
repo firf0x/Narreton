@@ -142,6 +142,34 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Settings"",
+            ""id"": ""494c7231-3ec0-4d51-9ada-028b5fae47bf"",
+            ""actions"": [
+                {
+                    ""name"": ""ReloadScene"",
+                    ""type"": ""Button"",
+                    ""id"": ""98c8636b-523e-44a8-b8b9-514574d4a5e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2b2be064-5baa-4d22-abfd-473b8c6bc404"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadScene"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -153,6 +181,9 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Clicks = m_Mouse.FindAction("Clicks", throwIfNotFound: true);
         m_Mouse_Position = m_Mouse.FindAction("Position", throwIfNotFound: true);
+        // Settings
+        m_Settings = asset.FindActionMap("Settings", throwIfNotFound: true);
+        m_Settings_ReloadScene = m_Settings.FindAction("ReloadScene", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -310,6 +341,52 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
+
+    // Settings
+    private readonly InputActionMap m_Settings;
+    private List<ISettingsActions> m_SettingsActionsCallbackInterfaces = new List<ISettingsActions>();
+    private readonly InputAction m_Settings_ReloadScene;
+    public struct SettingsActions
+    {
+        private @MainController m_Wrapper;
+        public SettingsActions(@MainController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ReloadScene => m_Wrapper.m_Settings_ReloadScene;
+        public InputActionMap Get() { return m_Wrapper.m_Settings; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SettingsActions set) { return set.Get(); }
+        public void AddCallbacks(ISettingsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SettingsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SettingsActionsCallbackInterfaces.Add(instance);
+            @ReloadScene.started += instance.OnReloadScene;
+            @ReloadScene.performed += instance.OnReloadScene;
+            @ReloadScene.canceled += instance.OnReloadScene;
+        }
+
+        private void UnregisterCallbacks(ISettingsActions instance)
+        {
+            @ReloadScene.started -= instance.OnReloadScene;
+            @ReloadScene.performed -= instance.OnReloadScene;
+            @ReloadScene.canceled -= instance.OnReloadScene;
+        }
+
+        public void RemoveCallbacks(ISettingsActions instance)
+        {
+            if (m_Wrapper.m_SettingsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISettingsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SettingsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SettingsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SettingsActions @Settings => new SettingsActions(this);
     public interface IMoveActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -318,5 +395,9 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     {
         void OnClicks(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
+    }
+    public interface ISettingsActions
+    {
+        void OnReloadScene(InputAction.CallbackContext context);
     }
 }
