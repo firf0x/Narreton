@@ -24,7 +24,7 @@ namespace Assets.Resources.Scripts.Camera
         private void FixedUpdate() {
             
             cameraInput = controller.Move.Movement.ReadValue<Vector2>();
-            _rb.MovePosition(_rb.position + (cameraInput * Speed * Time.fixedDeltaTime));
+            _rb.MovePosition(_rb.position + (cameraInput * Speed));
         }
     }
 }

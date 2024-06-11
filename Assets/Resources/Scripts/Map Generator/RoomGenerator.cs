@@ -45,6 +45,8 @@ namespace Assets.Resources.Scripts.MapGenerator
                 }
                 if (pathFound)
                 {
+                    ConnectCaves(_map, startPoint, endPoint); // добавляем соединение ближайших пещер
+                    ConnectCaves(_map, startPoint, endPoint); // добавляем соединение ближайших пещер
                     //ConnectCaves(_map, startPoint, endPoint); // добавляем соединение ближайших пещер
                     
                     // если путь найден, удалим тупиковые пещеры с помощью алгоритма Wave
