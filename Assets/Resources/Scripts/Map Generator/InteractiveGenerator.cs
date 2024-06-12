@@ -50,7 +50,6 @@ namespace Assets.Resources.Scripts.MapGenerator{
                         if(saveCell.Contains(randomCell))
                         {
                             randomCell = _aliveCells[Random.Range(0, _aliveCells.Count)];
-                            saveCell.Add(randomCell);
                         }
                         else
                         {

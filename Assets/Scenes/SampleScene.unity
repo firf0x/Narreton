@@ -402,8 +402,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 119573214b43e724ea88254a7a49082e, type: 2}
   - {fileID: 11400000, guid: 69de158fa7ad09d4881bc0efbdad0fb5, type: 2}
   - {fileID: 11400000, guid: f3d019d00f488314abf5157b12760499, type: 2}
-  HouseSizeGenerate: 10
-  Tile_1: {fileID: 11400000, guid: 7d7d815e84d0abf469cc77e55f3c1db7, type: 2}
+  HouseSizeGenerate: 5
+  Tile_1: {fileID: 11400000, guid: b15fbb97aea248b4895323a51f79e827, type: 2}
+  BorderTile: {fileID: 11400000, guid: 7d7d815e84d0abf469cc77e55f3c1db7, type: 2}
   Tile_2: {fileID: 11400000, guid: 612b92ce59d992c449137b14158f50ae, type: 2}
   Size: {x: 200, y: 200}
   chanceToStartAlive: 0.37
@@ -423,6 +424,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &632076880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 632076882}
+  - component: {fileID: 632076881}
+  m_Layer: 0
+  m_Name: Initialized
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &632076881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632076880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12037a224abbe0040ada8a43e42a5ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator: {fileID: 584215594}
+  playerController: {fileID: 0}
+--- !u!4 &632076882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632076880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 99.36521, y: 105.593575, z: 0.61545587}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -677,3 +724,4 @@ SceneRoots:
   - {fileID: 474443347}
   - {fileID: 584215595}
   - {fileID: 869346860}
+  - {fileID: 632076882}

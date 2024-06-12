@@ -20,8 +20,14 @@ public class Cell {
             this.Tile = tile[1];
         }
     }
+
+    // set dinamic and static Tiles
     public void SetTile(Tilemap tilemap)
     {
         tilemap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), Tile);
+    }
+    public void SetTile(Tilemap tilemap, TileBase tile)
+    {
+        tilemap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), tile);
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 namespace Assets.Resources.Scripts.MapGenerator
 {
-    public class RoomGenerator : MonoBehaviour
+    public class RoomGenerator : MonoBehaviour, IInitialize
     {
         public Tilemap tileMap;
         public List<TileBase> EnemyTileBaseList = new List<TileBase>();
@@ -20,6 +20,7 @@ namespace Assets.Resources.Scripts.MapGenerator
 
 
         public TileBase Tile_1; // alive tile
+        public TileBase BorderTile; 
         public TileBase Tile_2; // dead tile
         public Vector2 Size;
         [Range(0, 1)]
@@ -33,13 +34,10 @@ namespace Assets.Resources.Scripts.MapGenerator
         public Vector2Int startPoint; // стартовая точка
         public Vector2Int endPoint; // конечная точка
 
-        private Cell[,] CellList;
-
-        private void Awake()
+        public void Initialize()
         {
             _map = new bool[(int)Size.x, (int)Size.y];
-            CellList = new Cell[_map.GetLength(0), _map.GetLength(1)];
-
+            CellList.GenerateCells(_map);
 
             InitialiseMap(ref _map);
 
@@ -66,7 +64,8 @@ namespace Assets.Resources.Scripts.MapGenerator
                     // если путь найден, удалим тупиковые пещеры с помощью алгоритма Wave
                     RemoveDeadEndsWave(ref _map, startPoint, endPoint);
                     GenerateCells(_map); // Generate Cells
-                    InteractiveGenerator.SetMap(CellList); // Set map
+                    GenerateBorder(ref _map);
+                    InteractiveGenerator.SetMap(CellList.cellList); // Set map
                     InteractiveGenerator.GenEntryAndExit(InExitTileBaseList, ref tileMap); // Passing an array and generation interactive
                     InteractiveGenerator.SetSizeHouse(HouseSizeGenerate);
                     InteractiveGenerator.GenHouseOnMap(HouseTilebaseList, ref tileMap); // Passing an array and generation interactive
@@ -123,13 +122,52 @@ namespace Assets.Resources.Scripts.MapGenerator
                 }
             }
         }
+
+        private void GenerateBorder(ref bool[,] map)
+        {
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                for (int y = 0; y < map.GetLength(1); y++)
+                {
+                    if (!map[x, y])
+                    {
+                        // Проверяем соседей клетки
+                        for (int i = -1; i < 2; i++)
+                        {
+                            for (int j = -1; j < 2; j++)
+                            {
+                                int neighbourX = (x + i + map.GetLength(0)) % map.GetLength(0);
+                                int neighbourY = (y + j + map.GetLength(1)) % map.GetLength(1);
+
+                                if (i == 0 && j == 0)
+                                {
+                                    continue;
+                                }
+
+                                if (neighbourX < 0 || neighbourY < 0 || neighbourX >= map.GetLength(0) || neighbourY >= map.GetLength(1))
+                                {
+                                    continue;
+                                }
+
+                                if (map[neighbourX, neighbourY])
+                                {
+                                    // Если соседняя клетка жива, то это граница
+                                    tileMap.SetTile(new Vector3Int(x, y, 0), BorderTile); // Set border tile
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         private void GenerateCells(bool[,] map)
         {
             for (int x = 0; x < map.GetLength(0); x++)
             {
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
-                    CellList[x, y] = new Cell(new Vector2Int(x, y), map[x, y], DefaultTileBaseList);
+                    CellList.cellList[x, y] = new Cell(new Vector2Int(x, y), map[x, y], DefaultTileBaseList);
                 }
             }
         }
