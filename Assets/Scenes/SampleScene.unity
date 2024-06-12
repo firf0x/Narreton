@@ -380,7 +380,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 644399107}
-  Tile_1: {fileID: 11400000, guid: 99a3f0ff57546fd449d972d373f510ea, type: 2}
+  EnemyTileBaseList: []
+  PlatformTileBaseList: []
+  DefaultTileBaseList:
+  - {fileID: 11400000, guid: 7d7d815e84d0abf469cc77e55f3c1db7, type: 2}
+  - {fileID: 11400000, guid: 612b92ce59d992c449137b14158f50ae, type: 2}
+  InExitTileBaseList:
+  - {fileID: 11400000, guid: 91388a7c81729ed4c8757946b0175b1d, type: 2}
+  - {fileID: 11400000, guid: 790f3ddc0aaab0543ae9e4da23417d79, type: 2}
+  HouseTilebaseList:
+  - {fileID: 11400000, guid: 5878d045edd6fc341abcd9c0e78c4521, type: 2}
+  - {fileID: 11400000, guid: 48c6b78c698bc1c4ba576bed664be424, type: 2}
+  - {fileID: 11400000, guid: 4b1f75387b567b44fadc4969ee224c8a, type: 2}
+  - {fileID: 11400000, guid: 9af1a372d3c54da41b60192132b49965, type: 2}
+  - {fileID: 11400000, guid: 8968fc8e65fa78247a280bc14702bdaa, type: 2}
+  - {fileID: 11400000, guid: 820ffd0246b3dcf45b6658aa7d2f2334, type: 2}
+  - {fileID: 11400000, guid: 8b0bcf40d27ee314c89de13301a1038b, type: 2}
+  - {fileID: 11400000, guid: a0cd251ba273981419743c6069f4473d, type: 2}
+  - {fileID: 11400000, guid: 712b1ad853c31d548b78f2f314afa3d2, type: 2}
+  - {fileID: 11400000, guid: c0be9cb1c2b43dd4f96ef32343dcb35d, type: 2}
+  - {fileID: 11400000, guid: 119573214b43e724ea88254a7a49082e, type: 2}
+  - {fileID: 11400000, guid: 69de158fa7ad09d4881bc0efbdad0fb5, type: 2}
+  - {fileID: 11400000, guid: f3d019d00f488314abf5157b12760499, type: 2}
+  HouseSizeGenerate: 10
+  Tile_1: {fileID: 11400000, guid: 7d7d815e84d0abf469cc77e55f3c1db7, type: 2}
   Tile_2: {fileID: 11400000, guid: 612b92ce59d992c449137b14158f50ae, type: 2}
   Size: {x: 200, y: 200}
   chanceToStartAlive: 0.37

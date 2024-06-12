@@ -7,6 +7,18 @@ namespace Assets.Resources.Scripts.MapGenerator
     public class RoomGenerator : MonoBehaviour
     {
         public Tilemap tileMap;
+        public List<TileBase> EnemyTileBaseList = new List<TileBase>();
+        public List<TileBase> PlatformTileBaseList = new List<TileBase>();
+        public List<TileBase> DefaultTileBaseList = new List<TileBase>();
+        public List<TileBase> InExitTileBaseList = new List<TileBase>();
+        public List<TileBase> HouseTilebaseList = new List<TileBase>();
+
+        [Range(0, 100)]
+        public int HouseSizeGenerate;
+
+
+
+
         public TileBase Tile_1; // alive tile
         public TileBase Tile_2; // dead tile
         public Vector2 Size;
@@ -15,16 +27,21 @@ namespace Assets.Resources.Scripts.MapGenerator
         public int deathLimit;
         public int birthLimit;
         public int numberOfSteps;
-        private bool[,] _map;
+        private bool[,] _map; // ReadyMap
+        private List<Vector2Int> aliveCells = new List<Vector2Int>(); // Alive Cells Map 
         public int RemoveEnds;
         public Vector2Int startPoint; // стартовая точка
         public Vector2Int endPoint; // конечная точка
 
+        private Cell[,] CellList;
+
         private void Awake()
         {
             _map = new bool[(int)Size.x, (int)Size.y];
+            CellList = new Cell[_map.GetLength(0), _map.GetLength(1)];
 
-            InitialiseMap(_map);
+
+            InitialiseMap(ref _map);
 
             for (int i = 0; i < RemoveEnds; i++)
             {
@@ -33,90 +50,31 @@ namespace Assets.Resources.Scripts.MapGenerator
 
             // поиск пути от startPoint до endPoint
             bool pathFound = FindPath(_map, startPoint, endPoint);
+
             while (true)
             {
                 if (!pathFound)
                 {
                     // если путь не найден, перегенерируем карту
-                    InitialiseMap(_map);
+                    InitialiseMap(ref _map);
                     GenerateTilemap();
                     pathFound = FindPath(_map, startPoint, endPoint);
                     Debug.Log("путь не найден, перегенерируем карту");
                 }
                 if (pathFound)
-                {
-                    ConnectCaves(_map, startPoint, endPoint); // добавляем соединение ближайших пещер
-                    ConnectCaves(_map, startPoint, endPoint); // добавляем соединение ближайших пещер
-                    //ConnectCaves(_map, startPoint, endPoint); // добавляем соединение ближайших пещер
-                    
+                {                    
                     // если путь найден, удалим тупиковые пещеры с помощью алгоритма Wave
-                    RemoveDeadEndsWave(_map, startPoint, endPoint);
+                    RemoveDeadEndsWave(ref _map, startPoint, endPoint);
+                    GenerateCells(_map); // Generate Cells
+                    InteractiveGenerator.SetMap(CellList); // Set map
+                    InteractiveGenerator.GenEntryAndExit(InExitTileBaseList, ref tileMap); // Passing an array and generation interactive
+                    InteractiveGenerator.SetSizeHouse(HouseSizeGenerate);
+                    InteractiveGenerator.GenHouseOnMap(HouseTilebaseList, ref tileMap); // Passing an array and generation interactive
+                    
+                    
                     Debug.Log("путь найден");
                     break;
                 }                
-            }
-        }
-        private void ConnectCaves(bool[,] map, Vector2Int startPoint, Vector2Int endPoint)
-        {
-            // Создаем список ближайших пещер к активным
-            List<Vector2Int> nearbyCaves = new List<Vector2Int>();
-            for (int x = 0; x < map.GetLength(0); x++)
-            {
-                for (int y = 0; y < map.GetLength(1); y++)
-                {
-                    if (map[x, y] && IsNearActiveCell(map, x, y, startPoint, endPoint))
-                    {
-                        nearbyCaves.Add(new Vector2Int(x, y));
-                    }
-                }
-            }
-            // Соединяем ближайшие пещеры с активной клеткой
-            foreach (Vector2Int cave in nearbyCaves)
-            {
-                if (FindPath(map, cave, startPoint))
-                {
-                    ConnectCells(map, cave, startPoint);
-                }
-            }
-        }
-        private bool IsNearActiveCell(bool[,] map, int x, int y, Vector2Int startPoint, Vector2Int endPoint)
-        {
-            // Проверяем, находится ли клетка в радиусе 2 клеток от активной клетки
-            int distanceX = Math.Abs(x - startPoint.x);
-            int distanceY = Math.Abs(y - startPoint.y);
-            
-            if (distanceX <= 2 && distanceY <= 2)
-            {
-                return true;
-            }
-
-            distanceX = Math.Abs(x - endPoint.x);
-            distanceY = Math.Abs(y - endPoint.y);
-
-            if (distanceX <= 2 && distanceY <= 2)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private void ConnectCells(bool[,] map, Vector2Int start, Vector2Int end)
-        {
-            // Найдем путь от start до end
-            bool[,] visited = new bool[map.GetLength(0), map.GetLength(1)];
-
-            FindPathRecursive(map, visited, start.x, start.y, end.x, end.y);
-
-            // Установим клетки на пути в значение true
-            for (int x = 0; x < map.GetLength(0); x++)
-            {
-                for (int y = 0; y < map.GetLength(1); y++)
-                {
-                    if (visited[x, y])
-                    {
-                        map[x, y] = true;
-                    }
-                }
             }
         }
         //private void Update() {
@@ -124,7 +82,7 @@ namespace Assets.Resources.Scripts.MapGenerator
             //RemoveDeadEnds(_map);
             //RemoveUnconnectedCaves(_map);
         //}
-        private void InitialiseMap(bool[,] map)
+        private void InitialiseMap(ref bool[,] map)
         {
             var random = new System.Random();
             for (int x = 0; x < map.GetLength(0); x++)
@@ -147,7 +105,7 @@ namespace Assets.Resources.Scripts.MapGenerator
         {
             for (int i = 0; i < numberOfSteps; i++)
             {
-                _map = Step(_map);
+                _map = Step(ref _map);
             }
 
             for (int x = 0; x < _map.GetLength(0); x++)
@@ -165,8 +123,18 @@ namespace Assets.Resources.Scripts.MapGenerator
                 }
             }
         }
+        private void GenerateCells(bool[,] map)
+        {
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                for (int y = 0; y < map.GetLength(1); y++)
+                {
+                    CellList[x, y] = new Cell(new Vector2Int(x, y), map[x, y], DefaultTileBaseList);
+                }
+            }
+        }
 
-        private bool[,] Step(bool[,] oldMap)
+        private bool[,] Step(ref bool[,] oldMap)
         {
             bool[,] newMap = new bool[oldMap.GetLength(0), oldMap.GetLength(1)];
 
@@ -174,7 +142,7 @@ namespace Assets.Resources.Scripts.MapGenerator
             {
                 for (int y = 0; y < oldMap.GetLength(1); y++)
                 {
-                    int neighbours = CountAliveNeighbours(oldMap, x, y);
+                    int neighbours = CountAliveNeighbours(ref oldMap, x, y);
                     if (oldMap[x, y])
                     {
                         if (neighbours < deathLimit)
@@ -231,7 +199,7 @@ namespace Assets.Resources.Scripts.MapGenerator
             return false;
         }
 
-        private int CountAliveNeighbours(bool[,] map, int x, int y)
+        private int CountAliveNeighbours(ref bool[,] map, int x, int y)
         {
             int count = 0;
             for (int i = -1; i < 2; i++)
@@ -259,15 +227,15 @@ namespace Assets.Resources.Scripts.MapGenerator
             }
             return count;
         }
-        private void RemoveDeadEndsWave(bool[,] map, Vector2Int start, Vector2Int end)
+        private void RemoveDeadEndsWave(ref bool[,] map, Vector2Int start, Vector2Int end)
         {
             bool[,] visited = new bool[map.GetLength(0), map.GetLength(1)];
 
             // Заполнение от начальной точки
-            FloodFill(map, visited, start.x, start.y);
+            FloodFill(ref map, visited, start.x, start.y);
 
             // Заполнение от конечной точки
-            FloodFill(map, visited, end.x, end.y);
+            FloodFill(ref map, visited, end.x, end.y);
 
             // Удаление тупиковых пещер
             for (int x = 0; x < map.GetLength(0); x++)
@@ -281,10 +249,10 @@ namespace Assets.Resources.Scripts.MapGenerator
                 }
             }
 
-            WaveAlgorithm(map, visited, start.x, start.y); // Применение алгоритма WaveAlgorithm к всей карте
+            WaveAlgorithm(ref map, visited, start.x, start.y); // Применение алгоритма WaveAlgorithm к всей карте
             GenerateTilemap();
         }
-        private void WaveAlgorithm(bool[,] map, bool[,] visited, int startX, int startY)
+        private void WaveAlgorithm(ref bool[,] map, bool[,] visited, int startX, int startY)
         {
             Queue<Vector2Int> queue = new Queue<Vector2Int>();
 
@@ -304,11 +272,15 @@ namespace Assets.Resources.Scripts.MapGenerator
 
                 visited[x, y] = true;
 
-                int neighbours = CountAliveNeighbours(map, x, y);
+                int neighbours = CountAliveNeighbours(ref map, x, y);
 
                 if (neighbours == 1)
                 {
                     map[x, y] = false; // удалить тупиковую пещеру
+                }
+                else
+                {
+                    aliveCells.Add(new Vector2Int(x, y)); // добавить живую клетку в список
                 }
 
                 queue.Enqueue(new Vector2Int(x - 1, y));
@@ -317,7 +289,7 @@ namespace Assets.Resources.Scripts.MapGenerator
                 queue.Enqueue(new Vector2Int(x, y + 1));
             }
         }
-        private void FloodFill(bool[,] map, bool[,] visited, int x, int y)
+        private void FloodFill(ref bool[,] map, bool[,] visited, int x, int y)
         {
             Queue<Vector2Int> queue = new Queue<Vector2Int>();
             queue.Enqueue(new Vector2Int(x, y));
