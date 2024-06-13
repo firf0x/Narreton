@@ -21,8 +21,9 @@ namespace Assets.Resources.Scripts.MapGenerator
 
         public TileBase Tile_1; // alive tile
         public TileBase BorderTile; 
+        public static TileBase borderTile; 
         public TileBase Tile_2; // dead tile
-        public Vector2 Size;
+        public Vector2Int Size;
         [Range(0, 1)]
         public float chanceToStartAlive;
         public int deathLimit;
@@ -36,15 +37,15 @@ namespace Assets.Resources.Scripts.MapGenerator
 
         public void Initialize()
         {
-            _map = new bool[(int)Size.x, (int)Size.y];
+            borderTile = BorderTile;
+            _map = new bool[Size.x, Size.y];
+            
             CellList.GenerateCells(_map);
+            TileMap.SetTileMap(tileMap);
 
             InitialiseMap(ref _map);
-
-            for (int i = 0; i < RemoveEnds; i++)
-            {
-                GenerateTilemap();
-            }
+            
+            GenerateTilemap();
 
             // поиск пути от startPoint до endPoint
             bool pathFound = FindPath(_map, startPoint, endPoint);
@@ -64,14 +65,15 @@ namespace Assets.Resources.Scripts.MapGenerator
                     // если путь найден, удалим тупиковые пещеры с помощью алгоритма Wave
                     RemoveDeadEndsWave(ref _map, startPoint, endPoint);
                     GenerateCells(_map); // Generate Cells
-                    GenerateBorder(ref _map);
-                    InteractiveGenerator.SetMap(CellList.cellList); // Set map
-                    InteractiveGenerator.GenEntryAndExit(InExitTileBaseList, ref tileMap); // Passing an array and generation interactive
+                    GenerateBorder(ref _map); // Outlines cave
+                    
+                    InteractiveGenerator.SetMap(CellList.cellList); // Set cells map
+                    InteractiveGenerator.GenEntryAndExit(InExitTileBaseList); // Passing an array and generation interactive
                     InteractiveGenerator.SetSizeHouse(HouseSizeGenerate);
-                    InteractiveGenerator.GenHouseOnMap(HouseTilebaseList, ref tileMap); // Passing an array and generation interactive
+                    InteractiveGenerator.GenHouseOnMap(HouseTilebaseList); // Passing an array and generation interactive
                     
                     
-                    Debug.Log("путь найден");
+                    Debug.Log("путь найден, карта создана, интерактивные клетки созданы");
                     break;
                 }                
             }
@@ -113,11 +115,11 @@ namespace Assets.Resources.Scripts.MapGenerator
                 {
                     if (_map[x, y])
                     {
-                        tileMap.SetTile(new Vector3Int(x, y, 0), Tile_1); // set alive tile
+                        TileMap.tileMap.SetTile(new Vector3Int(x, y, 0), DefaultTileBaseList[0]); // set alive tile
                     }
                     else
                     {
-                        tileMap.SetTile(new Vector3Int(x, y, 0), Tile_2); // set dead tile
+                        TileMap.tileMap.SetTile(new Vector3Int(x, y, 0), DefaultTileBaseList[1]); // set dead tile
                     }
                 }
             }
@@ -152,7 +154,9 @@ namespace Assets.Resources.Scripts.MapGenerator
                                 if (map[neighbourX, neighbourY])
                                 {
                                     // Если соседняя клетка жива, то это граница
-                                    tileMap.SetTile(new Vector3Int(x, y, 0), BorderTile); // Set border tile
+                                    CellList.GetCellOfCoordinate(x, y, out Cell CellBorder);
+                                    CellBorder.Tile = BorderTile;
+                                    TileMap.tileMap.SetTile(new Vector3Int(x, y, 0), BorderTile); // Set border tile
                                     break;
                                 }
                             }

@@ -24,7 +24,7 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     ""name"": ""MainController"",
     ""maps"": [
         {
-            ""name"": ""Move"",
+            ""name"": ""MoveCamera"",
             ""id"": ""92959d33-c626-45a4-860e-263a12e23616"",
             ""actions"": [
                 {
@@ -170,13 +170,85 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MovePlayer"",
+            ""id"": ""6d354e90-6dec-4e69-8306-b337d5dc546b"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""9992ffd8-556c-44ec-ad50-fd5a2480a462"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""7c69ffc5-28b1-4828-bf66-7b1810b2998e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""e9616813-8b1d-416a-aa8f-0c61d1aea752"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""f0d8c613-e0dd-4c8e-a9ff-244cf7591c34"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""aa886d3d-5837-4520-8e8b-21c4b9de1d7e"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""06867551-ef26-44a2-9ada-dfab0d3c6004"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // Move
-        m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
-        m_Move_Movement = m_Move.FindAction("Movement", throwIfNotFound: true);
+        // MoveCamera
+        m_MoveCamera = asset.FindActionMap("MoveCamera", throwIfNotFound: true);
+        m_MoveCamera_Movement = m_MoveCamera.FindAction("Movement", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Clicks = m_Mouse.FindAction("Clicks", throwIfNotFound: true);
@@ -184,6 +256,9 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         // Settings
         m_Settings = asset.FindActionMap("Settings", throwIfNotFound: true);
         m_Settings_ReloadScene = m_Settings.FindAction("ReloadScene", throwIfNotFound: true);
+        // MovePlayer
+        m_MovePlayer = asset.FindActionMap("MovePlayer", throwIfNotFound: true);
+        m_MovePlayer_Movement = m_MovePlayer.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -242,51 +317,51 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Move
-    private readonly InputActionMap m_Move;
-    private List<IMoveActions> m_MoveActionsCallbackInterfaces = new List<IMoveActions>();
-    private readonly InputAction m_Move_Movement;
-    public struct MoveActions
+    // MoveCamera
+    private readonly InputActionMap m_MoveCamera;
+    private List<IMoveCameraActions> m_MoveCameraActionsCallbackInterfaces = new List<IMoveCameraActions>();
+    private readonly InputAction m_MoveCamera_Movement;
+    public struct MoveCameraActions
     {
         private @MainController m_Wrapper;
-        public MoveActions(@MainController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Move_Movement;
-        public InputActionMap Get() { return m_Wrapper.m_Move; }
+        public MoveCameraActions(@MainController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_MoveCamera_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_MoveCamera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MoveActions set) { return set.Get(); }
-        public void AddCallbacks(IMoveActions instance)
+        public static implicit operator InputActionMap(MoveCameraActions set) { return set.Get(); }
+        public void AddCallbacks(IMoveCameraActions instance)
         {
-            if (instance == null || m_Wrapper.m_MoveActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MoveActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Add(instance);
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
         }
 
-        private void UnregisterCallbacks(IMoveActions instance)
+        private void UnregisterCallbacks(IMoveCameraActions instance)
         {
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
         }
 
-        public void RemoveCallbacks(IMoveActions instance)
+        public void RemoveCallbacks(IMoveCameraActions instance)
         {
-            if (m_Wrapper.m_MoveActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IMoveActions instance)
+        public void SetCallbacks(IMoveCameraActions instance)
         {
-            foreach (var item in m_Wrapper.m_MoveActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_MoveCameraActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_MoveActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public MoveActions @Move => new MoveActions(this);
+    public MoveCameraActions @MoveCamera => new MoveCameraActions(this);
 
     // Mouse
     private readonly InputActionMap m_Mouse;
@@ -387,7 +462,53 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         }
     }
     public SettingsActions @Settings => new SettingsActions(this);
-    public interface IMoveActions
+
+    // MovePlayer
+    private readonly InputActionMap m_MovePlayer;
+    private List<IMovePlayerActions> m_MovePlayerActionsCallbackInterfaces = new List<IMovePlayerActions>();
+    private readonly InputAction m_MovePlayer_Movement;
+    public struct MovePlayerActions
+    {
+        private @MainController m_Wrapper;
+        public MovePlayerActions(@MainController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_MovePlayer_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MovePlayerActions set) { return set.Get(); }
+        public void AddCallbacks(IMovePlayerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        private void UnregisterCallbacks(IMovePlayerActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        public void RemoveCallbacks(IMovePlayerActions instance)
+        {
+            if (m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMovePlayerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MovePlayerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MovePlayerActions @MovePlayer => new MovePlayerActions(this);
+    public interface IMoveCameraActions
     {
         void OnMovement(InputAction.CallbackContext context);
     }
@@ -399,5 +520,9 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     public interface ISettingsActions
     {
         void OnReloadScene(InputAction.CallbackContext context);
+    }
+    public interface IMovePlayerActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
     }
 }

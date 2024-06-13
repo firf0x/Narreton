@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class Cell {
+public class Cell : ISetTile{
     public Vector2Int Coordinates {get; private set;}
     public bool IsAlive {get; set;}
     public TileBase Tile {get; set;}
@@ -13,21 +13,21 @@ public class Cell {
         this.IsAlive = isAlive;
         if(isAlive != true)
         {
-            this.Tile = tile[0];
+            this.Tile = tile[1];
         }
         else
         {
-            this.Tile = tile[1];
+            this.Tile = tile[0];
         }
     }
 
-    // set dinamic and static Tiles
-    public void SetTile(Tilemap tilemap)
+    // set dinamic and static Tile
+    public void SetTile()
     {
-        tilemap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), Tile);
+        TileMap.tileMap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), Tile);
     }
-    public void SetTile(Tilemap tilemap, TileBase tile)
+    public void SetTile(TileBase tile)
     {
-        tilemap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), tile);
+        TileMap.tileMap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), tile);
     }
 }
