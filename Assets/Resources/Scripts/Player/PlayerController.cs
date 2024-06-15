@@ -8,14 +8,14 @@ public class PlayerController : MonoBehaviour, IInitialize {
     public PlayerInput PlayerInput;
     private Vector2 moveble;
     private Vector2Int _currentPosition;
+
+    public WorkWithInteractiveMap workWithInteractive;
     public void Initialize()
     {
-        controller = new MainController();
-        controller.Enable();
-        controller.MovePlayer.Movement.performed += OnMovement;
         _currentPosition = InteractiveGenerator.EntryCell.Coordinates;
         
         ISetTile cell = InteractiveGenerator.EntryCell;
+
         cell.SetTile(PlayerTileBase);
     }
     public void OnMovement(InputAction.CallbackContext context)
@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell.SetTile(); // set default tile
             cell = EndCell;
             cell.SetTile(PlayerTileBase); // set dinamic tile
+            workWithInteractive.VisiblePick(EndCell.Coordinates);        
         }
         else if(moveble.x == -1)
         {
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell.SetTile(); // set default tile
             cell = EndCell;
             cell.SetTile(PlayerTileBase); // set dinamic tile
+            workWithInteractive.VisiblePick(EndCell.Coordinates);
         }
         // Y
         if(moveble.y == 1)
@@ -76,7 +78,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell.SetTile(); // set default tile
             cell = EndCell;
             cell.SetTile(PlayerTileBase); // set dinamic tile
-
+            workWithInteractive.VisiblePick(EndCell.Coordinates);
         }
         else if(moveble.y == -1)
         {
@@ -94,10 +96,16 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell.SetTile(); // set default tile
             cell = EndCell;
             cell.SetTile(PlayerTileBase); // set dinamic tile
+            workWithInteractive.VisiblePick(EndCell.Coordinates);
         }
     }
+    private void OnEnable() {
+        controller = new MainController();
+        controller.Enable();
+        controller.Gameplay.MovementPlayer.performed += OnMovement;        
+    }
+    private void OnDisable() {
+        controller.Gameplay.MovementPlayer.performed -= OnMovement;
+        controller.Disable();
+    }
 }
-
-
-/*
-*/

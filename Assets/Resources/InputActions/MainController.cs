@@ -24,78 +24,6 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     ""name"": ""MainController"",
     ""maps"": [
         {
-            ""name"": ""MoveCamera"",
-            ""id"": ""92959d33-c626-45a4-860e-263a12e23616"",
-            ""actions"": [
-                {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""204dc1d6-9e3f-43ec-ad0b-88332e51dff6"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""3ca10c8d-9797-4cf8-aae8-75d4ecb81c73"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""1505866c-7d1c-4518-abe0-68547b5675a9"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""af91fb44-f8ea-4196-8834-ac1d4db6f6cd"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""d2ec451e-2a7b-4ccb-ab23-fa8732c95bc8"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""36a55803-d624-402f-b178-743d23b7692a"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                }
-            ]
-        },
-        {
             ""name"": ""Mouse"",
             ""id"": ""7f223d7a-d0d1-4149-a779-328046d61a4c"",
             ""actions"": [
@@ -144,100 +72,176 @@ public partial class @MainController: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Settings"",
-            ""id"": ""494c7231-3ec0-4d51-9ada-028b5fae47bf"",
+            ""name"": ""Gameplay"",
+            ""id"": ""b687c1c1-be3e-49e6-9c3a-e1587585e3cc"",
             ""actions"": [
                 {
-                    ""name"": ""ReloadScene"",
-                    ""type"": ""Button"",
-                    ""id"": ""98c8636b-523e-44a8-b8b9-514574d4a5e8"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""MovementCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""344c658f-0745-4137-91b3-9e39cbde5b0d"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MovementPlayer"",
+                    ""type"": ""Value"",
+                    ""id"": ""d0c91b9b-22bf-4d09-bef0-cc4fcb627418"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ReloadScene"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2e285e5-7f60-4aef-8eb4-48daa901636c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuActive"",
+                    ""type"": ""Button"",
+                    ""id"": ""397d32c3-3f3e-4324-b477-cd2cd4275a4d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""61e1bc59-6bd1-44c9-a021-acdd767749eb"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovementCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""989a5fb0-29c9-41a9-ac89-8c0967277c3f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovementCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""d8f8b604-bb0d-4a3c-82ba-4ee31cfb0e6f"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovementCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a580c8d3-7850-4f0c-b6a4-08378c801809"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovementCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""39c8b560-9483-4848-ab75-f0a28b1b6be4"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MovementCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
-                    ""id"": ""2b2be064-5baa-4d22-abfd-473b8c6bc404"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""51b13f61-97ba-45c6-8cb0-6071e2b6210a"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ReloadScene"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""MovePlayer"",
-            ""id"": ""6d354e90-6dec-4e69-8306-b337d5dc546b"",
-            ""actions"": [
+                },
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""9992ffd8-556c-44ec-ad50-fd5a2480a462"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""name"": """",
+                    ""id"": ""114bccfe-501b-47b4-9da5-986b2068fa4c"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
-                }
-            ],
-            ""bindings"": [
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuActive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""7c69ffc5-28b1-4828-bf66-7b1810b2998e"",
+                    ""id"": ""ea76e63e-31ae-416b-bb68-87b434097fd2"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""MovementPlayer"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""e9616813-8b1d-416a-aa8f-0c61d1aea752"",
+                    ""id"": ""576ced25-3116-413a-bc7d-df0087c216ce"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""MovementPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""f0d8c613-e0dd-4c8e-a9ff-244cf7591c34"",
+                    ""id"": ""dbdd96ac-00ac-4a48-ba53-994e02a937f7"",
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""MovementPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""aa886d3d-5837-4520-8e8b-21c4b9de1d7e"",
+                    ""id"": ""cc5beed5-4352-41f5-871d-639f93e0448a"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""MovementPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""06867551-ef26-44a2-9ada-dfab0d3c6004"",
+                    ""id"": ""de89a30d-9931-428f-9231-5aba38890979"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""MovementPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -246,19 +250,16 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // MoveCamera
-        m_MoveCamera = asset.FindActionMap("MoveCamera", throwIfNotFound: true);
-        m_MoveCamera_Movement = m_MoveCamera.FindAction("Movement", throwIfNotFound: true);
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Clicks = m_Mouse.FindAction("Clicks", throwIfNotFound: true);
         m_Mouse_Position = m_Mouse.FindAction("Position", throwIfNotFound: true);
-        // Settings
-        m_Settings = asset.FindActionMap("Settings", throwIfNotFound: true);
-        m_Settings_ReloadScene = m_Settings.FindAction("ReloadScene", throwIfNotFound: true);
-        // MovePlayer
-        m_MovePlayer = asset.FindActionMap("MovePlayer", throwIfNotFound: true);
-        m_MovePlayer_Movement = m_MovePlayer.FindAction("Movement", throwIfNotFound: true);
+        // Gameplay
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_MovementCamera = m_Gameplay.FindAction("MovementCamera", throwIfNotFound: true);
+        m_Gameplay_MovementPlayer = m_Gameplay.FindAction("MovementPlayer", throwIfNotFound: true);
+        m_Gameplay_ReloadScene = m_Gameplay.FindAction("ReloadScene", throwIfNotFound: true);
+        m_Gameplay_MenuActive = m_Gameplay.FindAction("MenuActive", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,52 +318,6 @@ public partial class @MainController: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // MoveCamera
-    private readonly InputActionMap m_MoveCamera;
-    private List<IMoveCameraActions> m_MoveCameraActionsCallbackInterfaces = new List<IMoveCameraActions>();
-    private readonly InputAction m_MoveCamera_Movement;
-    public struct MoveCameraActions
-    {
-        private @MainController m_Wrapper;
-        public MoveCameraActions(@MainController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_MoveCamera_Movement;
-        public InputActionMap Get() { return m_Wrapper.m_MoveCamera; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MoveCameraActions set) { return set.Get(); }
-        public void AddCallbacks(IMoveCameraActions instance)
-        {
-            if (instance == null || m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Add(instance);
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
-        }
-
-        private void UnregisterCallbacks(IMoveCameraActions instance)
-        {
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
-        }
-
-        public void RemoveCallbacks(IMoveCameraActions instance)
-        {
-            if (m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IMoveCameraActions instance)
-        {
-            foreach (var item in m_Wrapper.m_MoveCameraActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_MoveCameraActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public MoveCameraActions @MoveCamera => new MoveCameraActions(this);
-
     // Mouse
     private readonly InputActionMap m_Mouse;
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
@@ -417,112 +372,85 @@ public partial class @MainController: IInputActionCollection2, IDisposable
     }
     public MouseActions @Mouse => new MouseActions(this);
 
-    // Settings
-    private readonly InputActionMap m_Settings;
-    private List<ISettingsActions> m_SettingsActionsCallbackInterfaces = new List<ISettingsActions>();
-    private readonly InputAction m_Settings_ReloadScene;
-    public struct SettingsActions
+    // Gameplay
+    private readonly InputActionMap m_Gameplay;
+    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+    private readonly InputAction m_Gameplay_MovementCamera;
+    private readonly InputAction m_Gameplay_MovementPlayer;
+    private readonly InputAction m_Gameplay_ReloadScene;
+    private readonly InputAction m_Gameplay_MenuActive;
+    public struct GameplayActions
     {
         private @MainController m_Wrapper;
-        public SettingsActions(@MainController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ReloadScene => m_Wrapper.m_Settings_ReloadScene;
-        public InputActionMap Get() { return m_Wrapper.m_Settings; }
+        public GameplayActions(@MainController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MovementCamera => m_Wrapper.m_Gameplay_MovementCamera;
+        public InputAction @MovementPlayer => m_Wrapper.m_Gameplay_MovementPlayer;
+        public InputAction @ReloadScene => m_Wrapper.m_Gameplay_ReloadScene;
+        public InputAction @MenuActive => m_Wrapper.m_Gameplay_MenuActive;
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(SettingsActions set) { return set.Get(); }
-        public void AddCallbacks(ISettingsActions instance)
+        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+        public void AddCallbacks(IGameplayActions instance)
         {
-            if (instance == null || m_Wrapper.m_SettingsActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_SettingsActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
+            @MovementCamera.started += instance.OnMovementCamera;
+            @MovementCamera.performed += instance.OnMovementCamera;
+            @MovementCamera.canceled += instance.OnMovementCamera;
+            @MovementPlayer.started += instance.OnMovementPlayer;
+            @MovementPlayer.performed += instance.OnMovementPlayer;
+            @MovementPlayer.canceled += instance.OnMovementPlayer;
             @ReloadScene.started += instance.OnReloadScene;
             @ReloadScene.performed += instance.OnReloadScene;
             @ReloadScene.canceled += instance.OnReloadScene;
+            @MenuActive.started += instance.OnMenuActive;
+            @MenuActive.performed += instance.OnMenuActive;
+            @MenuActive.canceled += instance.OnMenuActive;
         }
 
-        private void UnregisterCallbacks(ISettingsActions instance)
+        private void UnregisterCallbacks(IGameplayActions instance)
         {
+            @MovementCamera.started -= instance.OnMovementCamera;
+            @MovementCamera.performed -= instance.OnMovementCamera;
+            @MovementCamera.canceled -= instance.OnMovementCamera;
+            @MovementPlayer.started -= instance.OnMovementPlayer;
+            @MovementPlayer.performed -= instance.OnMovementPlayer;
+            @MovementPlayer.canceled -= instance.OnMovementPlayer;
             @ReloadScene.started -= instance.OnReloadScene;
             @ReloadScene.performed -= instance.OnReloadScene;
             @ReloadScene.canceled -= instance.OnReloadScene;
+            @MenuActive.started -= instance.OnMenuActive;
+            @MenuActive.performed -= instance.OnMenuActive;
+            @MenuActive.canceled -= instance.OnMenuActive;
         }
 
-        public void RemoveCallbacks(ISettingsActions instance)
+        public void RemoveCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_SettingsActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ISettingsActions instance)
+        public void SetCallbacks(IGameplayActions instance)
         {
-            foreach (var item in m_Wrapper.m_SettingsActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_SettingsActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public SettingsActions @Settings => new SettingsActions(this);
-
-    // MovePlayer
-    private readonly InputActionMap m_MovePlayer;
-    private List<IMovePlayerActions> m_MovePlayerActionsCallbackInterfaces = new List<IMovePlayerActions>();
-    private readonly InputAction m_MovePlayer_Movement;
-    public struct MovePlayerActions
-    {
-        private @MainController m_Wrapper;
-        public MovePlayerActions(@MainController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_MovePlayer_Movement;
-        public InputActionMap Get() { return m_Wrapper.m_MovePlayer; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MovePlayerActions set) { return set.Get(); }
-        public void AddCallbacks(IMovePlayerActions instance)
-        {
-            if (instance == null || m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Add(instance);
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
-        }
-
-        private void UnregisterCallbacks(IMovePlayerActions instance)
-        {
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
-        }
-
-        public void RemoveCallbacks(IMovePlayerActions instance)
-        {
-            if (m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IMovePlayerActions instance)
-        {
-            foreach (var item in m_Wrapper.m_MovePlayerActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_MovePlayerActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public MovePlayerActions @MovePlayer => new MovePlayerActions(this);
-    public interface IMoveCameraActions
-    {
-        void OnMovement(InputAction.CallbackContext context);
-    }
+    public GameplayActions @Gameplay => new GameplayActions(this);
     public interface IMouseActions
     {
         void OnClicks(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
     }
-    public interface ISettingsActions
+    public interface IGameplayActions
     {
+        void OnMovementCamera(InputAction.CallbackContext context);
+        void OnMovementPlayer(InputAction.CallbackContext context);
         void OnReloadScene(InputAction.CallbackContext context);
-    }
-    public interface IMovePlayerActions
-    {
-        void OnMovement(InputAction.CallbackContext context);
+        void OnMenuActive(InputAction.CallbackContext context);
     }
 }
