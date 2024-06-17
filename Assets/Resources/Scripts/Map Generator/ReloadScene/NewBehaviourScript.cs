@@ -5,38 +5,49 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Assets.Resources.Scripts.MapGenerator;
 public class NewBehaviourScript : MonoBehaviour{
-    private MainController controller;
-    public PlayerInput PlayerInput;
     public GameObject Cameraobj;
     public GameObject Uiobj;
     private float _KeyPress_R;
     private float _KeyPress_Escape;
-
-    private void Awake() {
-        controller = new MainController();
-        controller.Enable();
-        
-        controller.Gameplay.ReloadScene.performed += OnReloadScene;
-        controller.Gameplay.MenuActive.performed += OnMenuActive;
+    private float _KeyPress_Enter;
+    public UnityInputSystem inputSystem;
+    public WorkWithInteractiveMap WorkInteractiveMap;
+    
+    private void Awake() 
+    {
+        inputSystem.ReloadSceneEvent += OnReloadScene;
+        inputSystem.MenuActiveEvent += OnMenuActive;
+        inputSystem.EntryEvent += OnEnter;
 
         Cameraobj.transform.position = new Vector3(InteractiveGenerator.EntryCell.Coordinates.x, InteractiveGenerator.EntryCell.Coordinates.y, -10);
     }
 
 
-    public void OnReloadScene(InputAction.CallbackContext context)
+    public void OnReloadScene(float context)
     {
-        _KeyPress_R = context.ReadValue<float>();
+        _KeyPress_R = context;
         if (_KeyPress_R > 0)
             SceneManager.LoadScene(0);
 
     }
-    public void OnMenuActive(InputAction.CallbackContext context)
+    public void OnMenuActive(float context)
     {
-        _KeyPress_Escape = context.ReadValue<float>();
+        _KeyPress_Escape = context;
         if(_KeyPress_Escape > 0)
         {
             Time.timeScale = 0; 
             Uiobj.SetActive(true);
+        }
+    }
+
+    public void OnEnter(float context)
+    {
+        _KeyPress_Enter = context;
+        if(_KeyPress_Enter > 0)
+        {
+            Debug.Log("Enter");
+
+            WorkInteractiveMap.SwitchTileMap();
         }
     }
     public void Continued()
@@ -45,4 +56,13 @@ public class NewBehaviourScript : MonoBehaviour{
         Uiobj.SetActive(false);
     }
     public void Exit() => Application.Quit();
+
+    private void OnDisable() {
+        inputSystem.ReloadSceneEvent -= OnReloadScene;
+        inputSystem.MenuActiveEvent -= OnMenuActive;
+    }
+    private void OnDestroy() {
+        inputSystem.ReloadSceneEvent -= OnReloadScene;
+        inputSystem.MenuActiveEvent -= OnMenuActive;
+    }
 }

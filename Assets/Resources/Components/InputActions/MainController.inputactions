@@ -88,6 +88,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Entry",
+                    "type": "Button",
+                    "id": "3de6704c-db47-492e-85c7-782afd60e901",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -222,6 +231,17 @@
                     "action": "MovementPlayer",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4b4a2756-fe36-48fc-a712-4d4d8d4c3a5f",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Entry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

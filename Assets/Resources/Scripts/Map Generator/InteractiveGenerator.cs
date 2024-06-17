@@ -34,7 +34,7 @@ namespace Assets.Resources.Scripts.MapGenerator{
 
                     randomCell.SetIsExit(); 
                     
-                    randomCell.SetTile(); // Set Default Tile
+                    randomCell.SetTile(TileMap.tileMap); // Set Default Tile
                 }
             }
             else
@@ -90,7 +90,7 @@ namespace Assets.Resources.Scripts.MapGenerator{
                         randomCell.SetIsVillage(); 
 
 
-                        randomCell.SetTile(); // Set Default Tile
+                        randomCell.SetTile(TileMap.tileMap); // Set Default Tile
                     }
                 }
             }

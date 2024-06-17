@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public interface ISetTile {
-    void SetTile();
-    void SetTile(TileBase tile);
+    void SetTile(Tilemap tilemap);
+    void SetTile(Tilemap tilemap, TileBase tile);
 }
