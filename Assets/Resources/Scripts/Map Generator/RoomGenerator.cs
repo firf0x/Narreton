@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
@@ -7,8 +9,8 @@ namespace Assets.Resources.Scripts.MapGenerator
     public class RoomGenerator : MonoBehaviour, IInitialize
     {
         public Tilemap tileMap;
-        public List<TileBase> EnemyTileBaseList = new List<TileBase>();
-        public List<TileBase> PlatformTileBaseList = new List<TileBase>();
+
+        //Generation cave
         public List<TileBase> DefaultTileBaseList = new List<TileBase>();
         public List<TileBase> InExitTileBaseList = new List<TileBase>();
         public List<TileBase> HouseTilebaseList = new List<TileBase>();
@@ -16,71 +18,80 @@ namespace Assets.Resources.Scripts.MapGenerator
         [Range(0, 100)]
         public int HouseSizeGenerate;
 
-
-
-
-        public TileBase Tile_1; // alive tile
         public TileBase BorderTile; 
-        public TileBase Tile_2; // dead tile
-        public Vector2 Size;
+        public static TileBase borderTile; //Don't touch
+        public Vector2Int Size;
+
         [Range(0, 1)]
         public float chanceToStartAlive;
         public int deathLimit;
         public int birthLimit;
         public int numberOfSteps;
-        private bool[,] _map; // ReadyMap
-        private List<Vector2Int> aliveCells = new List<Vector2Int>(); // Alive Cells Map 
-        public int RemoveEnds;
+        private bool[,] _map; // ReadyMap Main cave
         public Vector2Int startPoint; // стартовая точка
         public Vector2Int endPoint; // конечная точка
 
-        public void Initialize()
+        public async void Initialize()
         {
-            _map = new bool[(int)Size.x, (int)Size.y];
-            CellList.GenerateCells(_map);
-
-            InitialiseMap(ref _map);
-
-            for (int i = 0; i < RemoveEnds; i++)
+            borderTile = BorderTile;
+            await InitializeAsync();
+        }
+        private async Task InitializeAsync()
+        {
+            try
             {
-                GenerateTilemap();
+                Debug.Log("Инициализация генерации начата");
+                await GenerateMapAsync();
+                await FindPathAsync();
+                await GenerateInteractiveCellsAsync();
+                Debug.Log("Инициализация генерации завершена");
             }
-
-            // поиск пути от startPoint до endPoint
-            bool pathFound = FindPath(_map, startPoint, endPoint);
-
-            while (true)
+            catch (Exception ex)
             {
-                if (!pathFound)
-                {
-                    // если путь не найден, перегенерируем карту
-                    InitialiseMap(ref _map);
-                    GenerateTilemap();
-                    pathFound = FindPath(_map, startPoint, endPoint);
-                    Debug.Log("путь не найден, перегенерируем карту");
-                }
-                if (pathFound)
-                {                    
-                    // если путь найден, удалим тупиковые пещеры с помощью алгоритма Wave
-                    RemoveDeadEndsWave(ref _map, startPoint, endPoint);
-                    GenerateCells(_map); // Generate Cells
-                    GenerateBorder(ref _map);
-                    InteractiveGenerator.SetMap(CellList.cellList); // Set map
-                    InteractiveGenerator.GenEntryAndExit(InExitTileBaseList, ref tileMap); // Passing an array and generation interactive
-                    InteractiveGenerator.SetSizeHouse(HouseSizeGenerate);
-                    InteractiveGenerator.GenHouseOnMap(HouseTilebaseList, ref tileMap); // Passing an array and generation interactive
-                    
-                    
-                    Debug.Log("путь найден");
-                    break;
-                }                
+                Debug.LogError("Ошибка инициализации: " + ex.Message);
             }
         }
-        //private void Update() {
-            //GenerateTilemap();
-            //RemoveDeadEnds(_map);
-            //RemoveUnconnectedCaves(_map);
-        //}
+        private async Task GenerateMapAsync()
+        {
+            // генерация карты
+            Debug.Log("Начало генерации карты");
+            _map = new bool[Size.x, Size.y];
+            CellList.SetSizeCells(_map);
+            TileMap.SetTileMap(tileMap);
+            InitialiseMap(ref _map);
+            GenerateTilemap();
+        }
+
+        private async Task<bool> FindPathAsync()
+        {
+            // поиск пути
+            Debug.Log("Проверка пути");
+            bool pathFound = FindPath(_map, startPoint, endPoint);
+            while (!pathFound)
+            {
+                InitialiseMap(ref _map);
+                GenerateTilemap();
+                pathFound = FindPath(_map, startPoint, endPoint);
+            }
+            Debug.Log("Проверка пути Окончена");
+            return pathFound;
+        }
+            
+        private async Task GenerateInteractiveCellsAsync()
+        {
+            Debug.Log("Начало генерации инерактивных клеток");
+            // генерация интерактивных клеток
+            RemoveDeadEndsWave(ref _map, startPoint, endPoint);
+            GenerateCells(_map);
+            GenerateBorder(ref _map);
+            InteractiveGenerator.SetMap(CellList.cellList);
+            InteractiveGenerator.GenAliveCells();
+            InteractiveGenerator.GenEntryAndExit(InExitTileBaseList);
+            InteractiveGenerator.SetSizeHouse(HouseSizeGenerate);
+            InteractiveGenerator.GenHouseOnMap(HouseTilebaseList);
+            Debug.Log("Окончание генерации инерактивных клеток");
+        }
+
         private void InitialiseMap(ref bool[,] map)
         {
             var random = new System.Random();
@@ -113,11 +124,11 @@ namespace Assets.Resources.Scripts.MapGenerator
                 {
                     if (_map[x, y])
                     {
-                        tileMap.SetTile(new Vector3Int(x, y, 0), Tile_1); // set alive tile
+                        TileMap.tileMap.SetTile(new Vector3Int(x, y, 0), DefaultTileBaseList[0]); // set alive tile
                     }
                     else
                     {
-                        tileMap.SetTile(new Vector3Int(x, y, 0), Tile_2); // set dead tile
+                        TileMap.tileMap.SetTile(new Vector3Int(x, y, 0), DefaultTileBaseList[1]); // set dead tile
                     }
                 }
             }
@@ -152,7 +163,9 @@ namespace Assets.Resources.Scripts.MapGenerator
                                 if (map[neighbourX, neighbourY])
                                 {
                                     // Если соседняя клетка жива, то это граница
-                                    tileMap.SetTile(new Vector3Int(x, y, 0), BorderTile); // Set border tile
+                                    CellList.GetCellOfCoordinate(new Vector2Int(x, y), CellList.cellList, out Cell CellBorder);
+                                    CellBorder.Tile = BorderTile;
+                                    TileMap.tileMap.SetTile(new Vector3Int(x, y, 0), BorderTile); // Set border tile
                                     break;
                                 }
                             }
@@ -167,11 +180,10 @@ namespace Assets.Resources.Scripts.MapGenerator
             {
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
-                    CellList.cellList[x, y] = new Cell(new Vector2Int(x, y), map[x, y], DefaultTileBaseList);
+                    CellList.cellList[x, y] = new Cell(new Vector2Int(x, y), DefaultTileBaseList, null, map[x, y]);
                 }
             }
         }
-
         private bool[,] Step(ref bool[,] oldMap)
         {
             bool[,] newMap = new bool[oldMap.GetLength(0), oldMap.GetLength(1)];
@@ -316,10 +328,6 @@ namespace Assets.Resources.Scripts.MapGenerator
                 {
                     map[x, y] = false; // удалить тупиковую пещеру
                 }
-                else
-                {
-                    aliveCells.Add(new Vector2Int(x, y)); // добавить живую клетку в список
-                }
 
                 queue.Enqueue(new Vector2Int(x - 1, y));
                 queue.Enqueue(new Vector2Int(x + 1, y));
@@ -350,6 +358,12 @@ namespace Assets.Resources.Scripts.MapGenerator
                 queue.Enqueue(new Vector2Int(cx, cy - 1));
                 queue.Enqueue(new Vector2Int(cx, cy + 1));
             }
+        }
+
+        private void OnDestroy() {
+            Array.Clear(_map, 0, _map.Length);
+            CellList.Clear(CellList.cellList);
+            InteractiveGenerator.ClearMap();
         }
     }
 }
