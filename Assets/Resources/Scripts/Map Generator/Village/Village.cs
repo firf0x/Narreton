@@ -9,10 +9,15 @@ public class Village : MonoBehaviour, IInitialize {
     public List<TileBase> AvailableTiles = new List<TileBase>();
     public List<TileBase> VillagersTiles = new List<TileBase>();
     public TileBase PlayerTile;
+    public TileBase ExitTile;
     public static Cell EntryCell;
     public void Initialize()
     {
         InitialiseMap();
+    }
+    private void OnDestroy() {
+        CellList.Clear(CellList.villageCellList);
+        EntryCell = null;
     }
 
     private void InitialiseMap()
@@ -53,6 +58,11 @@ public class Village : MonoBehaviour, IInitialize {
                         }
                     }
                     Debug.Log("Клетки вокруг деревенщин установлены");
+                }
+                if (VillageTileMap.GetTile(new Vector3Int(x, y, 0)) == ExitTile)
+                {
+                    CellList.villageCellList[x, y].SetIsExitVillage();
+                    Debug.Log($"{x} and {y}");
                 }
             }
         }

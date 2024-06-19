@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Assets.Resources.Scripts.MapGenerator;
-public class PlayerController : MonoBehaviour, IInitialize {
+public class PlayerController : MonoBehaviour, IInitialize, IActive {
     public TileBase PlayerTileBase;
     private Vector2 moveble;
     public UnityInputSystem inputSystem;
@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell = EndCell;
             cell.SetTile(TileMap.tileMapVillage, PlayerTileBase); // set dinamic tile
             workWithInteractive.TalkPick(EndCell.Coordinates);
+            workWithInteractive.VisiblePickVillage(EndCell.Coordinates);
             CurrentPositionInVillage = _currentPositionInVillage;
         }
         else if(moveble.x == -1 && Map.IsVillage == true)
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell = EndCell;
             cell.SetTile(TileMap.tileMapVillage, PlayerTileBase); // set dinamic tile
             workWithInteractive.TalkPick(EndCell.Coordinates);
+            workWithInteractive.VisiblePickVillage(EndCell.Coordinates);
             CurrentPositionInVillage = _currentPositionInVillage;
         }
         // Y
@@ -100,6 +102,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell = EndCell;
             cell.SetTile(TileMap.tileMapVillage, PlayerTileBase); // set dinamic tile
             workWithInteractive.TalkPick(EndCell.Coordinates);
+            workWithInteractive.VisiblePickVillage(EndCell.Coordinates);
             CurrentPositionInVillage = _currentPositionInVillage;
         }
         else if(moveble.y == -1 && Map.IsVillage == true)
@@ -120,6 +123,7 @@ public class PlayerController : MonoBehaviour, IInitialize {
             cell = EndCell;
             cell.SetTile(TileMap.tileMapVillage, PlayerTileBase); // set dinamic tile
             workWithInteractive.TalkPick(EndCell.Coordinates);
+            workWithInteractive.VisiblePickVillage(EndCell.Coordinates);
             CurrentPositionInVillage = _currentPositionInVillage;
         }
     
@@ -208,26 +212,13 @@ public class PlayerController : MonoBehaviour, IInitialize {
             CurrentPosition = _currentPosition;
         }
     }
+
+    public void Active()
+    {
+        inputSystem.MovementPlayerEvent += OnMovement;
+    }
+    public void DisActive()
+    {
+        inputSystem.MovementPlayerEvent -= OnMovement;
+    }
 }
-
-
-
-
-/*
-            _currentPosition.y -= 1;
-            CellList.GetCellOfCoordinate(new Vector2Int(_currentPosition.x, _currentPosition.y + 1), CellList.cellList, out Cell StartCell);
-            CellList.GetCellOfCoordinate(new Vector2Int(_currentPosition.x, _currentPosition.y), CellList.cellList, out Cell EndCell);
-            
-            if(EndCell.Tile == RoomGenerator.borderTile)
-            {
-                _currentPosition.y += 1;
-                return;
-            }
-            
-            ISetTile cell = StartCell;
-            cell.SetTile(TileMap.tileMap); // set default tile
-            cell = EndCell;
-            cell.SetTile(TileMap.tileMap, PlayerTileBase); // set dinamic tile
-            workWithInteractive.VisiblePick(EndCell.Coordinates);
-        }
-*/

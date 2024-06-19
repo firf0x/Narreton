@@ -7,6 +7,8 @@ public class Cell : ISetTile{
     public bool IsAlive {get; set;}
     public bool IsVillage {get; private set;}
     public bool IsExit {get; private set;}
+
+    public bool IsExitVillage {get; private set;}
     public bool IsTalk {get; private set;}
     public TileBase Tile {get; set;}
 
@@ -37,12 +39,14 @@ public class Cell : ISetTile{
         this.IsVillage = false;
         this.IsExit = false;
         this.IsTalk = false;
+        this.IsExitVillage = false;
     }
 
     // Setting the index whether this cell is something
     public void SetIsVillage() => this.IsVillage = true;
     public void SetIsExit() => this.IsExit = true;
     public void SetIsTalk() => this.IsTalk = true;
+    public void SetIsExitVillage() => this.IsExitVillage = true;
 
     // set dinamic and static Tile
     public void SetTile(Tilemap tilemap) => tilemap.SetTile(new Vector3Int(Coordinates.x, Coordinates.y, 0), Tile);

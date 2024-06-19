@@ -55,7 +55,7 @@
             "actions": [
                 {
                     "name": "MovementCamera",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "344c658f-0745-4137-91b3-9e39cbde5b0d",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -101,61 +101,6 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
-                    "id": "61e1bc59-6bd1-44c9-a021-acdd767749eb",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MovementCamera",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "989a5fb0-29c9-41a9-ac89-8c0967277c3f",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MovementCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "d8f8b604-bb0d-4a3c-82ba-4ee31cfb0e6f",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MovementCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "a580c8d3-7850-4f0c-b6a4-08378c801809",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MovementCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "39c8b560-9483-4848-ab75-f0a28b1b6be4",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MovementCamera",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "51b13f61-97ba-45c6-8cb0-6071e2b6210a",
                     "path": "<Keyboard>/r",
@@ -182,7 +127,7 @@
                     "id": "ea76e63e-31ae-416b-bb68-87b434097fd2",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2",
                     "groups": "",
                     "action": "MovementPlayer",
                     "isComposite": true,
@@ -242,6 +187,61 @@
                     "action": "Entry",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "b7b233fb-7b4e-4c39-b779-8b5a9f38e217",
+                    "path": "2DVector(mode=2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovementCamera",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "c333efdb-5c55-4253-9033-508dfc443890",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovementCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "a0b0d4a5-8c1c-4c09-9387-5e92969c3b55",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovementCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "9adf19ff-7b55-46a6-9a76-c59c0a45879a",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovementCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "794e71db-d65b-4e80-91a5-7c47c07de403",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovementCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

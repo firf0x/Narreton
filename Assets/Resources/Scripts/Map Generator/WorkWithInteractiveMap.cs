@@ -24,30 +24,61 @@ public class WorkWithInteractiveMap : MonoBehaviour, IInitialize {
     public void VisiblePick(Vector2Int coordinates)
     {
         position = coordinates;
-        if(CellList.cellList[position.x, position.y].IsVillage == true)
+        
+        if (CellList.cellList[position.x, position.y].IsVillage == true && Map.IsVillage == false)
+        {
             ImageUI.SetActive(true);
+        }
         else
+        {
             ImageUI.SetActive(false);
+        }
+    }
+
+    public void VisiblePickVillage(Vector2Int coordinates)
+    {
+        position = coordinates;
+        
+        if(CellList.villageCellList.GetLength(0) < coordinates.x || CellList.villageCellList.GetLength(1) < coordinates.y)
+        {
+            return;
+        }
+        else
+        {
+            if(CellList.villageCellList[coordinates.x, coordinates.y].IsExitVillage == true)
+            {
+                ImageUI.SetActive(true);
+            }
+            else
+            {
+                ImageUI.SetActive(false);
+            }
+        }
     }
 
     public void TalkPick(Vector2Int coordinates)
     {
         if(CellList.villageCellList[coordinates.x, coordinates.y].IsTalk == true)
+        {
             ImageTalk.SetActive(true);
+        }
         else
+        {
             ImageTalk.SetActive(false);
+        }
     }
 
     public void SwitchTileMap()
     {   
-        if(Map.IsVillage == false && CellList.cellList[position.x, position.y].IsVillage == true)
+        Debug.Log(position);
+        if(Map.IsVillage == false && CellList.cellList[position.x, position.y].IsVillage)
         {
             caveTileMap.SetActive(false);
             villageTileMap.SetActive(true);
             CameraObj.transform.position = new Vector3(PlayerController.CurrentPositionInVillage.x, PlayerController.CurrentPositionInVillage.y, -10);
             Map.IsVillage = true;
         }
-        else
+        else if(Map.IsVillage == true && CellList.villageCellList[position.x, position.y].IsExitVillage == true)
         {
             caveTileMap.SetActive(true);
             villageTileMap.SetActive(false);

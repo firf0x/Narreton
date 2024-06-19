@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using Assets.Resources.Scripts.MapGenerator;
 public class NewBehaviourScript : MonoBehaviour{
     public GameObject Cameraobj;
+    public PlayerController playerController;
     public GameObject Uiobj;
     private float _KeyPress_R;
     private float _KeyPress_Escape;
@@ -27,7 +28,7 @@ public class NewBehaviourScript : MonoBehaviour{
     {
         _KeyPress_R = context;
         if (_KeyPress_R > 0)
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
 
     }
     public void OnMenuActive(float context)
@@ -35,7 +36,9 @@ public class NewBehaviourScript : MonoBehaviour{
         _KeyPress_Escape = context;
         if(_KeyPress_Escape > 0)
         {
-            Time.timeScale = 0; 
+            Time.timeScale = 0;
+            IActive active = playerController;
+            active.DisActive();
             Uiobj.SetActive(true);
         }
     }
@@ -52,11 +55,16 @@ public class NewBehaviourScript : MonoBehaviour{
     }
     public void Continued()
     {
-        Time.timeScale = 1; 
+        Time.timeScale = 1;
+        IActive active = playerController;
+        active.Active(); 
         Uiobj.SetActive(false);
     }
-    public void Exit() => Application.Quit();
-
+    public void Exit()
+    {
+        Time.timeScale = 1; 
+        SceneManager.LoadScene(0);
+    }
     private void OnDisable() {
         inputSystem.ReloadSceneEvent -= OnReloadScene;
         inputSystem.MenuActiveEvent -= OnMenuActive;

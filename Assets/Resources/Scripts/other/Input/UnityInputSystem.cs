@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class UnityInputSystem : MonoBehaviour {
     
     [Header("PlayerInput")]
-    public static MainController mainController;
+    public MainController mainController;
     public PlayerInput playerInput;
 
     [Header("InputActionReference")]
@@ -63,7 +63,7 @@ public class UnityInputSystem : MonoBehaviour {
         }
     }
 
-    public void InvokeEventMovementCamera(InputAction.CallbackContext context) => MovementCameraEvent?.Invoke(context.ReadValue<Vector2>());
+    public void InvokeEventMovementCamera(InputAction.CallbackContext context) => MovementCameraEvent?.Invoke(context.ReadValue<Vector2>());  
     public void InvokeEventMovementPlayer(InputAction.CallbackContext context) => MovementPlayerEvent?.Invoke(context.ReadValue<Vector2>());
     public void InvokeEventReloadScene(InputAction.CallbackContext context) => ReloadSceneEvent?.Invoke(context.ReadValue<float>());
     public void InvokeEventMenuActive(InputAction.CallbackContext context) => MenuActiveEvent?.Invoke(context.ReadValue<float>());
