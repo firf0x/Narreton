@@ -13,6 +13,8 @@ public class UnityInputSystem : MonoBehaviour {
     public InputActionReference ReloadSceneReference;
     public InputActionReference MenuActiveReference;
     public InputActionReference EntryBattonReference;
+    public InputActionReference MousePositionReference;
+
 
     public event Action<Vector2> MovementCameraEvent;
     public event Action<Vector2> MovementPlayerEvent; 
@@ -20,7 +22,10 @@ public class UnityInputSystem : MonoBehaviour {
     public event Action<float> MenuActiveEvent; 
     public event Action<float> EntryEvent; 
 
-    
+    public event Action<Vector2> MousePositionEvent; 
+
+
+
 
     private void OnEnable() {
         mainController = new MainController();
@@ -32,6 +37,7 @@ public class UnityInputSystem : MonoBehaviour {
         ReloadSceneReference.action.performed += InvokeEventReloadScene;
         MenuActiveReference.action.performed += InvokeEventMenuActive;
         EntryBattonReference.action.performed += InvokeEventEntry;
+        MousePositionReference.action.performed += InvokeEventMousePosition;
     }
     private void OnDestroy() {
         // Set Disactive Events
@@ -40,6 +46,7 @@ public class UnityInputSystem : MonoBehaviour {
         ReloadSceneReference.action.performed -= InvokeEventReloadScene;
         MenuActiveReference.action.performed -= InvokeEventMenuActive;
         EntryBattonReference.action.performed -= InvokeEventEntry;
+        MousePositionReference.action.performed -= InvokeEventMousePosition;
 
         mainController.Disable();
         mainController.Dispose();
@@ -49,12 +56,12 @@ public class UnityInputSystem : MonoBehaviour {
     {
         switch(playerInput.currentActionMap.name)
         {
-            case "Gameplay":
-                playerInput.SwitchCurrentActionMap("Mouse");        
+            case nameof(NameActionMap.Gameplay):
+                playerInput.SwitchCurrentActionMap(nameof(NameActionMap.Mouse));
             break;
 
-            case "Mouse":
-                playerInput.SwitchCurrentActionMap("Gameplay");
+            case nameof(NameActionMap.Mouse):
+                playerInput.SwitchCurrentActionMap(nameof(NameActionMap.Gameplay));
             break;
 
             default:
@@ -68,4 +75,14 @@ public class UnityInputSystem : MonoBehaviour {
     public void InvokeEventReloadScene(InputAction.CallbackContext context) => ReloadSceneEvent?.Invoke(context.ReadValue<float>());
     public void InvokeEventMenuActive(InputAction.CallbackContext context) => MenuActiveEvent?.Invoke(context.ReadValue<float>());
     public void InvokeEventEntry(InputAction.CallbackContext context) => EntryEvent?.Invoke(context.ReadValue<float>());
+    public void InvokeEventMousePosition(InputAction.CallbackContext context) => MousePositionEvent?.Invoke(context.ReadValue<Vector2>());
+
+    protected enum NameActionMap
+    {
+        Gameplay,
+        Mouse,
+    } 
+
+
+
 }

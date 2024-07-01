@@ -86,7 +86,7 @@ public partial class @MainController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MovementPlayer"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""d0c91b9b-22bf-4d09-bef0-cc4fcb627418"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
