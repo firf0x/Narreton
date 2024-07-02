@@ -15,7 +15,7 @@ public class Inventory : MonoBehaviour {
     private void OnEnable() {
         for (int i = 0; i < itemList.Count; i++)
         {
-            cellList[i].SetItem(itemList[i].image);
+            cellList[i].SetItem(itemList[i]);
             cellList[i].Initialize();
         }
     }

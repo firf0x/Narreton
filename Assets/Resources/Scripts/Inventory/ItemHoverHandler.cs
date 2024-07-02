@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Assets.Resources.Scripts.Inventory.Items;
+using TMPro;
 
 public class ItemHoverHandler : MonoBehaviour
 {
@@ -30,10 +31,12 @@ public class ItemHoverHandler : MonoBehaviour
 
         foreach (var item in results)
         {
-            Debug.Log(item.gameObject.name);
             if(item.gameObject.name == "case")
             {
-                _panelItemInfo.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(vector.x, vector.y, 0));
+                _panelItemInfo.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(vector.x, vector.y, 10));
+                _panelItemInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"Name : \n{item.gameObject.GetComponent<CellInventory>().item.name}";
+                _panelItemInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Description : {item.gameObject.GetComponent<CellInventory>().item.description}";
+            
                 _panelItemInfo.SetActive(true);
                 break;
             }

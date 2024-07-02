@@ -4,14 +4,14 @@ using UnityEngine.UI;
 namespace Assets.Resources.Scripts.Inventory.Items
 {
     public class CellInventory : MonoBehaviour, IInitialize {
-        private Sprite image;
+        public Item item {get; private set;}
         private Vector2 position;
 
         public void Initialize() {
             position = new Vector2(transform.position.x, transform.position.y);
-            gameObject.GetComponent<Image>().sprite = image;
+            gameObject.GetComponent<Image>().sprite = item.image;
         }
 
-        public void SetItem(Sprite sprite) => this.image = sprite; 
+        public void SetItem(Item item) => this.item = item; 
     }
 }
