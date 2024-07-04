@@ -34,7 +34,7 @@ public class ItemHoverHandler : MonoBehaviour
             if(item.gameObject.name == "case")
             {
                 _panelItemInfo.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(vector.x, vector.y, 10));
-                _panelItemInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"Name : \n{item.gameObject.GetComponent<CellInventory>().item.name}";
+                _panelItemInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $":Name:\n{item.gameObject.GetComponent<CellInventory>().item.name}";
                 _panelItemInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Description : {item.gameObject.GetComponent<CellInventory>().item.description}";
             
                 _panelItemInfo.SetActive(true);

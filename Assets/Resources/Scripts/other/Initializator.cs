@@ -10,7 +10,7 @@ public class Initializator : MonoBehaviour {
     public Village VillageGenerator;
     public Map map;
     public WorkWithInteractiveMap workInteractiveMap;
-    public ListObject GenerateItem;
+    public CreateItems GenerateItem;
 
     private void Awake() {
         InterfaceManager.InitializeAsync(generator);

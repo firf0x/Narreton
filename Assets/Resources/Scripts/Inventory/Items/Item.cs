@@ -1,4 +1,5 @@
 using UnityEngine;
+using Assets.Resources.Components.Configs;
 
 namespace Assets.Resources.Scripts.Inventory.Items
 {
