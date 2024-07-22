@@ -6,6 +6,6 @@ public struct ItemPack {
     public List<Item> DefaultPack;
     public ItemPack(List<ItemsObjects> info)
     {
-        DefaultPack = new List<Item> {new Item(info[0]), new Item(info[1]), new Item(info[2]) };
+        DefaultPack = new List<Item> {new Item(info[0]), new Item(info[1]), new Item(info[2]), new Item(info[3]) };
     }
 }

@@ -9,7 +9,7 @@ namespace Assets.Resources.Scripts.Inventory.Items
 
         public void Initialize() {
             position = new Vector2(transform.position.x, transform.position.y);
-            gameObject.GetComponent<Image>().sprite = item.image;
+            gameObject.GetComponent<Image>().sprite = item.Stats.Info.image;
         }
 
         public void SetItem(Item item) => this.item = item; 

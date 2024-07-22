@@ -1,15 +1,12 @@
 using UnityEngine;
-
+using Assets.Resources.Scripts.Interface;
 
 namespace Assets.Resources.Scripts.Characters 
 {
-    public abstract class Character : Stats {
+    public abstract class Character {
 
-        public Character(string name, string description, HealStats healStats,
-         CombatStats combatStats, LeveingStats leveingStats)
-         : base(name,description, healStats, combatStats, leveingStats) {}
-
-        public abstract void OnAttack(int damage);
+        public Stats StatsInfo {get; set;}
+        public abstract void OnAttack(IDamageSystem damage);
         public virtual void OnHighAttack(int damage)
         {
             Debug.Log("Not, realize the void");
@@ -17,5 +14,9 @@ namespace Assets.Resources.Scripts.Characters
         public abstract void OnDamage(int damage);
         public abstract void OnHeal(int amount);
         public abstract void OnDeath();
+        public virtual IInfo Info()
+        {
+            return null;
+        }
     }
 }

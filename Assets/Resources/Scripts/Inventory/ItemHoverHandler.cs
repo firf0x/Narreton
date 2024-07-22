@@ -31,11 +31,11 @@ public class ItemHoverHandler : MonoBehaviour
 
         foreach (var item in results)
         {
-            if(item.gameObject.name == "case")
+            if(item.gameObject.name == "Item")
             {
                 _panelItemInfo.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(vector.x, vector.y, 10));
-                _panelItemInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $":Name:\n{item.gameObject.GetComponent<CellInventory>().item.name}";
-                _panelItemInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Description : {item.gameObject.GetComponent<CellInventory>().item.description}";
+                _panelItemInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $":Name:\n{item.gameObject.GetComponent<CellInventory>().item.Stats.Info.Name}";
+                _panelItemInfo.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"Description : {item.gameObject.GetComponent<CellInventory>().item.Stats.Info.Description}";
             
                 _panelItemInfo.SetActive(true);
                 break;
@@ -43,6 +43,10 @@ public class ItemHoverHandler : MonoBehaviour
             else
                 _panelItemInfo.SetActive(false);
         }
+    }
+
+    private void OnDisable() {
+        _panelItemInfo.SetActive(false);
     }
 
     private void OnDestroy() => inputSystem.MousePositionEvent -= VisibleDescription;

@@ -3,18 +3,14 @@ using UnityEngine;
 using Assets.Resources.Scripts.Characters;
 using Assets.Resources.Scripts.Interface;
 
-[System.Serializable]
-public class PlayerCharacter : Character, IDamageSystem {
-    
+public class Glor : Character, IDamageSystem {
     public event Action<Sprite> ImageChangedEvent;
-
     private CharactersConfig config;
-    public Sprite PlayerImage {get; private set;}
-
-    public PlayerCharacter(CharactersConfig config)
+    public Sprite CharacterImage { get; private set; }
+    public Glor(CharactersConfig config)
     {
         this.config = config;
-        PlayerImage = config.DefaultImage;
+        CharacterImage = config.DefaultImage;
         StatsInfo = new Stats(config.Name, config.Description, new HealStats(config.Hp), new CombatStats(config.Damage, config.Defense, config.Mana), new LeveingStats(config.Level));
         StatsInfo.healStats.DeathEvent += OnDeath;
     }
@@ -22,7 +18,7 @@ public class PlayerCharacter : Character, IDamageSystem {
     public void SetImage(Sprite newImage) 
     {
         ImageChangedEvent?.Invoke(newImage);
-        this.PlayerImage = newImage;
+        this.CharacterImage = newImage;
     }
 
     public override void OnAttack(IDamageSystem damage){
@@ -35,7 +31,7 @@ public class PlayerCharacter : Character, IDamageSystem {
         StatsInfo.healStats.Heal(amount);
     }
     public override void OnDeath(){
-        Debug.Log("You dead (┬┬﹏┬┬)");
+        Debug.Log("Ты умер");
     }
 
     public override IInfo Info()
@@ -43,9 +39,9 @@ public class PlayerCharacter : Character, IDamageSystem {
         return StatsInfo;
     }
 
-    ~PlayerCharacter()
+    ~Glor()
     {
         StatsInfo.healStats.DeathEvent -= OnDeath;
-        Debug.Log("PlayerCharacter is delete");
+        Debug.Log($"{StatsInfo.name} is delete");
     }
 }

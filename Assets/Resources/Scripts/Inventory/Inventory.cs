@@ -6,6 +6,7 @@ using Assets.Resources.Components.Configs;
 
 public class Inventory : MonoBehaviour {
     public List<CellInventory> cellList = new List<CellInventory>();
+
     private ItemPack _packs;
     private List<Item> itemList = new List<Item>(); // you have in inventory items
     [SerializeField] private InventoryConfig _config;

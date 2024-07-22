@@ -34,6 +34,10 @@ public class HealStats : IHeal {
         if (hp > 0)
         {
             hp -= damage;
+            if(hp <= 0)
+            {
+                Death();
+            }
         }
     }
 
@@ -48,7 +52,7 @@ public class HealStats : IHeal {
     //here
 
     // Character dead
-    public void Death() => DeathEvent?.Invoke();
+    private void Death() => DeathEvent?.Invoke();
 
     //--------------------------------------------------------
 }
